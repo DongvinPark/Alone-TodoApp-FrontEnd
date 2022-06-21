@@ -1,6 +1,8 @@
 //import logo from './logo.svg';
 import React from 'react';
 import Todo from './Todo';
+import AddTodo from './AddTodo';
+import { Paper, List, Container } from '@mui/material';
 import './App.css';
 
 
@@ -10,24 +12,56 @@ class App extends React.Component {
     super(props);
     this.state = {
       items:[
-        { id: "0", title: "Hello World 1", done: true },
-        { id: "1", title: "Hello World 2", done: false }
+        
       ]
     };
   }
 
-  render(){
+  //>>> Method Area <<<
 
-    var todoItems = this.state.items.map(
-      (item, idx) => ( < Todo item={item} key={ item.id } /> )
-    );//map
+
+  add = (item) => {
+    const thisItems = this.state.items;
+    item.id = "ID-" + thisItems.length;
+    item.done = false;
+    thisItems.push(item);
+    this.setState({ items:thisItems });
+    console.log("items : ", this.state.items);
+  };//func
+
+
+
+  delete = (item) => {
+    const thisItems = this.state.items;
+    console.log("Before update itmes : ", this.state.items);
+    const newItems = thisItems.filter( e => e.id !== item.id );
+    this.setState( { items: newItems }, () => { console.log("Updated Items : ", this.state.items); } );
+  };
+
+
+
+
+
+  render(){
+    var todoItems = this.state.items.length > 0 && (
+      <Paper style={ {margin:16} }>
+        <List>
+          {
+            this.state.items.map(
+              (item,idx) => (<Todo item={item} key={item.id} delete={this.delete}/>)
+            )//map
+          }
+        </List>
+      </Paper>
+    );//var
 
     return(
-
       <div className='App'>
-        {todoItems}
+        <Container>
+          <AddTodo add={this.add} />
+          <div className="TodoList">{todoItems}</div>
+        </Container>
       </div>
-
     );//return
   }//render
 }//end of class
@@ -56,4 +90,19 @@ function App() {
     </div>
   );
 }
+*/
+/*
+머티리얼 UI 적용하기 전에 입력돼 있던 내용들
+
+    var todoItems = this.state.items.map(
+      (item, idx) => ( < Todo item={item} key={ item.id } /> )
+    );//map
+
+    return(
+
+      <div className='App'>
+        {todoItems}
+      </div>
+
+    );//return
 */
