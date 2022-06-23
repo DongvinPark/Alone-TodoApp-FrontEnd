@@ -13,7 +13,7 @@ class Todo extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = { item : props.item };
+        this.state = { item : props.item, readOnly: true };
         this.delete = props.delete;
     }
 
@@ -22,8 +22,36 @@ class Todo extends React.Component{
     deleteEventHandler = () => {
         console.log("delete Event Handler called");
         this.delete(this.state.item);
-    };
+    };//func
 
+
+    offReadOnlyMode = () => {
+        console.log("Read Only Mode status : ", this.state.readOnly);
+        this.setState(
+            {readOnly:false}, ()=>{ console.log("read only ? : ", this.state.readOnly) }
+        );//setState
+    };//func
+    
+
+    enterKeyEventHandler = (e) => {
+        if(e.key === 'Enter'){
+            this.setState( { readOnly: true } );
+        }
+    };//func
+
+
+    editEventHandler = (e) => {
+        const thisItem = this.state.item;
+        thisItem.title = e.target.value;
+        this.setState({ item: thisItem });
+    };//func
+
+
+    checkboxEventHandler = (e) => {
+        const thisItem = this.state.item;
+        thisItem.done = !thisItem.done;
+        this.setState( { item: thisItem } );
+    };//func
 
 
 
@@ -33,7 +61,7 @@ class Todo extends React.Component{
 
         return(
             <ListItem>
-                <Checkbox checked={item.done} />
+                <Checkbox checked={item.done} onChange={this.checkboxEventHandler}/>
                 <ListItemText>
                     <InputBase
                         inputProps={ {"aria-label": "naked"} }
@@ -41,8 +69,11 @@ class Todo extends React.Component{
                         id={item.id}
                         name={item.id}
                         value={item.title}
-                        multiline={true}
+                        //multiline={true}
                         fullWidth={true}
+                        onClick={this.offReadOnlyMode}
+                        onKeyPress={this.enterKeyEventHandler}
+                        onChange={this.editEventHandler}
                     />
                 </ListItemText>
 
