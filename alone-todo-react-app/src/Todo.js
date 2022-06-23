@@ -5,15 +5,26 @@ import {
     InputBase,
     Checkbox,
     ListItemSecondaryAction,
-    IconButton
+    IconButton,
+    Paper,
+    List,
+    Button
     } from "@mui/material";
 import { DeleteOutlined } from '@mui/icons-material';
+
+import Reply from './Reply';
 
 class Todo extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = { item : props.item, readOnly: true };
+        this.state = { 
+            item : props.item,
+            readOnly: true,
+            replies:[
+                //{ id: "0", title:"test reply 01" },
+                //{ id: "1", title:"test reply 02" }
+            ] };//this.state
         this.delete = props.delete;
     }
 
@@ -55,9 +66,58 @@ class Todo extends React.Component{
 
 
 
+    addReply = (replyToInsert) => {
+        const thisReplyItem = this.state.replies;
+
+        replyToInsert = { id: "", title:"" };
+
+        replyToInsert.id = "ID-" + thisReplyItem.length;
+
+        replyToInsert.title =  "click to edit :)";
+
+        thisReplyItem.push(replyToInsert);
+        this.setState( { replies:thisReplyItem } );
+        console.log("replies : ", this.state.replies);
+    };//func
+
+
+
+    deleteReply = (replyToDelete) => {
+        const thisReplies = this.state.replies;
+
+        console.log("Before delete reply : ", this.state.replies);
+
+        const deletedReply = thisReplies.filter(
+            e => e.id !== replyToDelete.id
+        );
+
+        this.setState(
+            {replies: deletedReply},
+            () => {
+                console.log("After delete reply : ", this.state.replies)
+            }
+        );
+    };//func
+
+
+
 
     render(){
         const item = this.state.item;
+
+        var todoReplies = this.state.replies.length > 0 && (
+            <Paper style={ { paddingLeft:10 } }>
+                <List>
+                    {
+                        this.state.replies.map(
+                            (replyItem,idx) => (<Reply replyItem={replyItem} key={replyItem.id} 
+                            deleteReply = {this.deleteReply}
+                            />)
+                        )//map
+                    }
+                </List>
+            </Paper>
+        );//todoReplies
 
         return(
             <ListItem>
@@ -70,14 +130,24 @@ class Todo extends React.Component{
                         name={item.id}
                         value={item.title}
                         //multiline={true}
-                        fullWidth={true}
+                        //fullWidth={true}//이놈 때문에 디자인에 문제가 생기고 있는 거 아닐까?
                         onClick={this.offReadOnlyMode}
                         onKeyPress={this.enterKeyEventHandler}
                         onChange={this.editEventHandler}
                     />
                 </ListItemText>
+                
+                {todoReplies}
 
                 <ListItemSecondaryAction>
+                    <Button
+                        color = "secondary"
+                        variant="outlined"
+                        size="small"
+                        onClick = {this.addReply}
+                    >
+                        + reply
+                    </Button>
                     <IconButton
                         aria-label="Delete Todo"
                         onClick={this.deleteEventHandler}
@@ -85,7 +155,7 @@ class Todo extends React.Component{
                         <DeleteOutlined />
                     </IconButton>
                 </ListItemSecondaryAction>
-
+                
             </ListItem>
         );//return
 
