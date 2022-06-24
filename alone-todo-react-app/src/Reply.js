@@ -3,10 +3,9 @@ import {
     ListItem,
     ListItemText,
     InputBase,
-    ListItemSecondaryAction,
-    IconButton
+    Button,
+    ListItemSecondaryAction
 } from "@mui/material";
-import { DeleteOutlined } from "@mui/icons-material";
 
 class Reply extends React.Component {
 
@@ -66,7 +65,7 @@ class Reply extends React.Component {
                         id={replyItem.id}
                         name={replyItem.id}
                         value={replyItem.title}
-                        //fullwidth={true}
+                        fullWidth={true}
                         onClick = {this.offReadOnlyMode}
                         onChange={
                             this.editEventHandler
@@ -74,17 +73,20 @@ class Reply extends React.Component {
                         onKeyPress={
                             this.enterKeyEventHandler
                         }
+                        placeholder="click to edid :)"
                     />
 
                     <ListItemSecondaryAction>
-                        <IconButton
+                        <Button
+                            color="secondary"
+                            variant="outlined"
                             aria-label="Delete Todo"
                             onClick={
                                 this.deleteEventHandler
                             }
                         >
-                            <DeleteOutlined />
-                        </IconButton>
+                            del
+                        </Button>
                     </ListItemSecondaryAction>
                 </ListItemText>
             </ListItem>

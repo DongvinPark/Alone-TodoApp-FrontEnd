@@ -8,7 +8,8 @@ import {
     IconButton,
     Paper,
     List,
-    Button
+    Button,
+    Grid
     } from "@mui/material";
 import { DeleteOutlined } from '@mui/icons-material';
 
@@ -73,7 +74,7 @@ class Todo extends React.Component{
 
         replyToInsert.id = "ID-" + thisReplyItem.length;
 
-        replyToInsert.title =  "click to edit :)";
+        //replyToInsert.title =  "click to edit :)";
 
         thisReplyItem.push(replyToInsert);
         this.setState( { replies:thisReplyItem } );
@@ -122,6 +123,21 @@ class Todo extends React.Component{
         return(
             <ListItem>
                 <Checkbox checked={item.done} onChange={this.checkboxEventHandler}/>
+                    <Button
+                        color="secondary"
+                        variant="text"
+                        size="small"
+                    >
+                        D.day
+                    </Button>
+                    <Button
+                        color = "success"
+                        variant="text"
+                        size="small"
+                        onClick = {this.addReply}
+                    >
+                        reply
+                    </Button>
                 <ListItemText>
                     <InputBase
                         inputProps={ {"aria-label": "naked"} }
@@ -130,24 +146,20 @@ class Todo extends React.Component{
                         name={item.id}
                         value={item.title}
                         //multiline={true}
-                        //fullWidth={true}//이놈 때문에 디자인에 문제가 생기고 있는 거 아닐까?
+                        fullWidth={true}//이놈 때문에 디자인에 문제가 생기고 있는 거 아닐까?
                         onClick={this.offReadOnlyMode}
                         onKeyPress={this.enterKeyEventHandler}
                         onChange={this.editEventHandler}
+                        placeholder="click to edti :D"
                     />
+                    <Grid>
+                        {todoReplies}
+                    </Grid>
                 </ListItemText>
                 
-                {todoReplies}
 
-                <ListItemSecondaryAction>
-                    <Button
-                        color = "secondary"
-                        variant="outlined"
-                        size="small"
-                        onClick = {this.addReply}
-                    >
-                        + reply
-                    </Button>
+                <ListItemSecondaryAction >
+                    
                     <IconButton
                         aria-label="Delete Todo"
                         onClick={this.deleteEventHandler}
@@ -155,8 +167,8 @@ class Todo extends React.Component{
                         <DeleteOutlined />
                     </IconButton>
                 </ListItemSecondaryAction>
-                
             </ListItem>
+            
         );//return
 
     }//render
