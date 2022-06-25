@@ -73,7 +73,7 @@ class Reply extends React.Component {
                         onKeyPress={
                             this.enterKeyEventHandler
                         }
-                        placeholder="click to edid :)"
+                        placeholder="click to edit :)"
                     />
 
                     <ListItemSecondaryAction>

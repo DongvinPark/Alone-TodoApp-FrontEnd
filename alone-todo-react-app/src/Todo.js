@@ -150,7 +150,7 @@ class Todo extends React.Component{
                         onClick={this.offReadOnlyMode}
                         onKeyPress={this.enterKeyEventHandler}
                         onChange={this.editEventHandler}
-                        placeholder="click to edti :D"
+                        placeholder=">>> click to edit :D"
                     />
                     <Grid>
                         {todoReplies}
