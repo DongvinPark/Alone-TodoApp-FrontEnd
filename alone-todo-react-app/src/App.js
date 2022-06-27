@@ -36,7 +36,7 @@ class App extends React.Component {
     console.log("Before update itmes : ", this.state.items);
     const newItems = thisItems.filter( e => e.id !== item.id );
     this.setState( { items: newItems }, () => { console.log("Updated Items : ", this.state.items); } );
-  };
+  };//func
 
 
 

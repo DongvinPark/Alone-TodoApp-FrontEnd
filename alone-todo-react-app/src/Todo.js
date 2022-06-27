@@ -101,6 +101,42 @@ class Todo extends React.Component{
     };//func
 
 
+    resetDate = () => {
+        console.log("resetDate() called");
+        
+        const thisItem = this.state.item;
+        console.log("before reset date : ", thisItem.dueDate);
+        
+        var dDay = document.getElementById("D-Day-Date-Edit").value;
+        console.log("dDay value : ", dDay);
+        
+        thisItem.dueDate = dDay;
+        console.log("after reset date : ", thisItem.dueDate);
+        
+        this.setState({ item: thisItem });
+        console.log("final : ", this.state.item);
+    };//func
+
+
+    getLeftDays = (d1, d2) => {
+        const date1 = new Date(d1);
+        const date2 = new Date(d2);
+        
+        const diffDate = date1.getTime() - date2.getTime();
+        
+        const leftDaysInMilSec = Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리초 * 초 * 분 * 시 = 일
+
+        console.log(leftDaysInMilSec);
+
+        const leftDaysInteger = Math.ceil( leftDaysInMilSec );
+        
+        if(leftDaysInMilSec < 1) {
+            console.log("if entered");
+            return 0;
+        }
+        
+        else return leftDaysInteger;
+      };//func
 
 
     render(){
@@ -120,6 +156,10 @@ class Todo extends React.Component{
             </Paper>
         );//todoReplies
 
+        var leftDays = this.getLeftDays(this.state.item.dueDate, Date.now());
+
+        
+
         return(
             <ListItem>
                 <Checkbox checked={item.done} onChange={this.checkboxEventHandler}/>
@@ -130,6 +170,7 @@ class Todo extends React.Component{
                             color="secondary"
                             variant="text"
                             size="small"
+                            onClick={this.resetDate}
                         >
                             디데이<br/>수정
                 </Button>
@@ -164,10 +205,10 @@ class Todo extends React.Component{
 
                     <Grid container>
                         <Grid item xs={5}>
-                            999일<br/>남음
+                            {leftDays} 일<br/>남음
                         </Grid>
                         <Grid item xs={5}>
-                            <input type="date" id="D-Day-Date" value="2020-12-31"/>
+                            {<input type="date" id="D-Day-Date-Edit"/>}
                         </Grid>
                     </Grid>
                     <Grid>

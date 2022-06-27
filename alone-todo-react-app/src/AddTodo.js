@@ -6,7 +6,7 @@ class AddTodo extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = { item : { title : "" } };
+        this.state = { item : { title : "", dueDate : "" } };
         this.add = props.add;
     }
 
@@ -22,8 +22,15 @@ class AddTodo extends React.Component{
 
 
     onButtonClick = () => {
+
+        var dDay = document.getElementById("D-Day-Date").value;
+        
+        const thisItem = this.state.item;
+
+        thisItem.dueDate = dDay;
+
         this.add(this.state.item);
-        this.setState({item: {title: ""} });
+        this.setState({item: {title: "", dueDate: ""} });
 
        /*  var myDate = document.getElementById("D-Day-Date").value;
         console.log("selected Date : ", myDate);
@@ -64,7 +71,7 @@ class AddTodo extends React.Component{
                     
                 </Grid>
                 <Grid container>
-                    <Grid>{<input type="date" id="D-Day-Date" value="2020-12-31"/>}</Grid>
+                    <Grid>{<input type="date" id="D-Day-Date"/>}</Grid>
                 </Grid>
             </Paper>
         );//return
