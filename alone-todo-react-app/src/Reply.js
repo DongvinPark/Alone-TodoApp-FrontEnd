@@ -73,19 +73,20 @@ class Reply extends React.Component {
                         onKeyPress={
                             this.enterKeyEventHandler
                         }
-                        placeholder="click to edit :)"
+                        placeholder="edit :)"
                     />
 
                     <ListItemSecondaryAction>
                         <Button
                             color="secondary"
-                            variant="outlined"
+                            variant="text"
                             aria-label="Delete Todo"
+                            size="small"
                             onClick={
                                 this.deleteEventHandler
                             }
                         >
-                            del
+                            X
                         </Button>
                     </ListItemSecondaryAction>
                 </ListItemText>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Paper, Button, Grid } from '@mui/material';
 
+
 class AddTodo extends React.Component{
 
     constructor(props){
@@ -23,6 +24,10 @@ class AddTodo extends React.Component{
     onButtonClick = () => {
         this.add(this.state.item);
         this.setState({item: {title: ""} });
+
+       /*  var myDate = document.getElementById("D-Day-Date").value;
+        console.log("selected Date : ", myDate);
+        console.log(typeof(myDate)); */
     };//func
 
 
@@ -37,9 +42,9 @@ class AddTodo extends React.Component{
         return(
             <Paper style={ {margin:16, padding: 16} } >
                 <Grid container >
-                    <Grid xs={10.5} md={10.5} item style={{ paddingRight:10 }}>
+                    <Grid xs={10.5} md={10.5} item >
                         <TextField
-                            placeholder='Add Todo here'
+                            placeholder='choose d-day, title :)'
                             fullWidth
                             onChange={this.onInputChange}
                             value={this.state.item.title}
@@ -47,15 +52,19 @@ class AddTodo extends React.Component{
                         />
                     </Grid>
                     <Grid xs={1} md={1} item>
-                        <Button fullWidth
+                        <Button
                             color="secondary"
-                            variant="outlined"
+                            variant="text"
                             size="large"
                             onClick = {this.onButtonClick}
                         >
                             +
                         </Button>
                     </Grid>
+                    
+                </Grid>
+                <Grid container>
+                    <Grid>{<input type="date" id="D-Day-Date" value="2020-12-31"/>}</Grid>
                 </Grid>
             </Paper>
         );//return

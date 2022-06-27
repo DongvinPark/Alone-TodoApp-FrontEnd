@@ -123,21 +123,30 @@ class Todo extends React.Component{
         return(
             <ListItem>
                 <Checkbox checked={item.done} onChange={this.checkboxEventHandler}/>
-                    <Button
-                        color="secondary"
-                        variant="text"
-                        size="small"
-                    >
-                        D.day
-                    </Button>
-                    <Button
-                        color = "success"
-                        variant="text"
-                        size="small"
-                        onClick = {this.addReply}
-                    >
-                        reply
-                    </Button>
+                    
+                <Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            color="secondary"
+                            variant="text"
+                            size="small"
+                        >
+                            디데이<br/>수정
+                </Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            color = "success"
+                            variant="text"
+                            size="small"
+                            onClick = {this.addReply}
+                        >
+                            댓글
+                        </Button>
+                    </Grid>
+                </Grid>
+                
+
                 <ListItemText>
                     <InputBase
                         inputProps={ {"aria-label": "naked"} }
@@ -146,15 +155,25 @@ class Todo extends React.Component{
                         name={item.id}
                         value={item.title}
                         //multiline={true}
-                        fullWidth={true}//이놈 때문에 디자인에 문제가 생기고 있는 거 아닐까?
+                        fullWidth={true}
                         onClick={this.offReadOnlyMode}
                         onKeyPress={this.enterKeyEventHandler}
                         onChange={this.editEventHandler}
-                        placeholder=">>> click to edit Todo title :D"
+                        placeholder=">>> click to edit"
                     />
+
+                    <Grid container>
+                        <Grid item xs={5}>
+                            999일<br/>남음
+                        </Grid>
+                        <Grid item xs={5}>
+                            <input type="date" id="D-Day-Date" value="2020-12-31"/>
+                        </Grid>
+                    </Grid>
                     <Grid>
                         {todoReplies}
                     </Grid>
+
                 </ListItemText>
                 
 
