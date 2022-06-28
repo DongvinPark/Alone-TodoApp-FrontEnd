@@ -107,7 +107,7 @@ class Todo extends React.Component{
         const thisItem = this.state.item;
         console.log("before reset date : ", thisItem.dueDate);
         
-        var dDay = document.getElementById("D-Day-Date-Edit").value;
+        var dDay = document.getElementById("D-Day-Date").value;
         console.log("dDay value : ", dDay);
         
         thisItem.dueDate = dDay;
@@ -116,6 +116,8 @@ class Todo extends React.Component{
         this.setState({ item: thisItem });
         console.log("final : ", this.state.item);
     };//func
+
+
 
 
     getLeftDays = (d1, d2) => {
@@ -139,6 +141,8 @@ class Todo extends React.Component{
       };//func
 
 
+
+
     render(){
         const item = this.state.item;
 
@@ -157,8 +161,6 @@ class Todo extends React.Component{
         );//todoReplies
 
         var leftDays = this.getLeftDays(this.state.item.dueDate, Date.now());
-
-        
 
         return(
             <ListItem>
@@ -204,11 +206,11 @@ class Todo extends React.Component{
                     />
 
                     <Grid container>
-                        <Grid item xs={5}>
-                            {leftDays} 일<br/>남음
+                        <Grid item xs={6}>
+                            기한 : {this.state.item.dueDate}
                         </Grid>
-                        <Grid item xs={5}>
-                            {<input type="date" id="D-Day-Date-Edit"/>}
+                        <Grid item xs={4}>
+                            {leftDays} 일 남음
                         </Grid>
                     </Grid>
                     <Grid>
