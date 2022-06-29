@@ -71,7 +71,14 @@ class AddTodo extends React.Component{
                     
                 </Grid>
                 <Grid container>
-                    <Grid>{<input type="date" id="D-Day-Date"/>}</Grid>
+                    <Grid item xs={3.5}>
+                        <br/>
+                        {<input type="date" id="D-Day-Date"/>}
+                    </Grid>
+                    <Grid item xs={8.5}>
+                        <br/>
+                        {"<<< click to choose date :)"}
+                    </Grid>
                 </Grid>
             </Paper>
         );//return
