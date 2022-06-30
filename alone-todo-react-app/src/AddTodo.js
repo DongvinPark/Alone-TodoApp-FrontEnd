@@ -77,7 +77,7 @@ class AddTodo extends React.Component{
                     </Grid>
                     <Grid item xs={8.5}>
                         <br/>
-                        {"<<< click to choose date :)"}
+                        {"<<< click to edit date :)"}
                     </Grid>
                 </Grid>
             </Paper>

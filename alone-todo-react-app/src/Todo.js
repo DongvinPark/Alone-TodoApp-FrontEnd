@@ -148,6 +148,7 @@ class Todo extends React.Component{
 
         //diffDate는 설정해 놓은 디데이 날짜와 지금 시각 사이의 차이를 밀리초로 표현한 값이다. 여기서 1일을 뜻하는 (86_400_000)밀리초를 몇 번 뺐는지를 구하면 몇 일이 지나야 디데이에 도달하는 지를 구할 수 있다.
         while(true){
+            console.log("resetDate while called");
             diffDate -= (86_400_000);
             timer += 1;
             if(diffDate < 86_400_000){break;}
@@ -176,7 +177,13 @@ class Todo extends React.Component{
             </Paper>
         );//todoReplies
 
-        var leftDays = this.getLeftDays(this.state.item.dueDate, Date.now());
+        var leftDays;
+        if(item.dueDate === ""){
+            leftDays = "??";
+        }
+        else{
+            leftDays = this.getLeftDays(this.state.item.dueDate, Date.now());            
+        }
 
         return(
             <ListItem>
