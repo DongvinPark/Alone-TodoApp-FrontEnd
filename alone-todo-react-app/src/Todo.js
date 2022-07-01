@@ -138,9 +138,13 @@ class Todo extends React.Component{
         console.log("mil/s difference : ", diffDate);
 
         //디데이를 '오늘'로 설정한 경우다. 남은 시간이 밀리초 기준으로 당연히 (1000밀리초 * 60초 * 60분 * 24시간 == 86_400_000밀리초보다 적을 수밖에 없다.)
-        if(diffDate < 86_400_000) {
+        if(diffDate < 86_400_000 && diffDate >=0) {
             console.log("if entered");
             return 0;
+        }
+
+        else if(diffDate < 0){
+            return diffDate;
         }
 
         //디데이가 오늘보다 나중의 날짜로 설정된 경우를 계산하기 위한 변수다.
@@ -178,11 +182,16 @@ class Todo extends React.Component{
         );//todoReplies
 
         var leftDays;
+        var failed="";
         if(item.dueDate === ""){
             leftDays = "??";
         }
         else{
-            leftDays = this.getLeftDays(this.state.item.dueDate, Date.now());            
+            leftDays = this.getLeftDays(this.state.item.dueDate, Date.now());
+            if(leftDays < 0){
+                leftDays = 0;
+                failed = "기한을 넘겼어요ㅠㅠ";
+            }   
         }
 
         return(
@@ -234,6 +243,9 @@ class Todo extends React.Component{
                         </Grid>
                         <Grid item xs={4}>
                             {leftDays} 일<br/>남음
+                        </Grid>
+                        <Grid>
+                            {failed}
                         </Grid>
                     </Grid>
                     <Grid>
