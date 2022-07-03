@@ -207,7 +207,7 @@ class Todo extends React.Component{
                             onClick={this.resetDate}
                         >
                             디데이<br/>수정
-                </Button>
+                        </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Button
