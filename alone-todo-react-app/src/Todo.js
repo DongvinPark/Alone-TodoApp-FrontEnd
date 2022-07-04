@@ -22,11 +22,12 @@ class Todo extends React.Component{
         this.state = { 
             item : props.item,
             readOnly: true,
-            replies:[
-                //{ id: "0", title:"test reply 01" },
-                //{ id: "1", title:"test reply 02" }
-            ] };//this.state
+            /*replies:props.item.replies 이 부분 매우 중요하다!! 댓글들도 결국은 App.js의 items 배열 내부 요소일 수밖에 없다는 사실을 기억히야 한다!!*/
+            replies:props.item.replies };//this.state
         this.delete = props.delete;
+        this.updateTodo = props.updateTodo;
+        this.addReplyCall = props.addReplyCall;
+        this.updateReplyCall = props.updateReplyCall;
     }
 
     //>>> Method Area <<<
@@ -48,6 +49,10 @@ class Todo extends React.Component{
     enterKeyEventHandler = (e) => {
         if(e.key === 'Enter'){
             this.setState( { readOnly: true } );
+
+            console.log("Todo enterKeyEventHandler called : ", this.state.item);
+            //call updateTodo method from App.js
+            this.updateTodo(this.state.item);
         }
     };//func
 
@@ -63,22 +68,33 @@ class Todo extends React.Component{
         const thisItem = this.state.item;
         thisItem.done = !thisItem.done;
         this.setState( { item: thisItem } );
+
+        //call updateTodo method from App.js
+        this.updateTodo(this.state.item);
     };//func
 
 
 
+    //렌더링 된 프런트 엔드에서 '댓글'이라고 써 있는 버튼을 눌렀을 때, 이 함수가 호출된다.
+    //그러고 나서 무슨 일이 일어나는가? 우선 첫째로 프런트엔드 상에서의 Todo 아이템에 변화가 생긴다.
+    //또한 Back End에 있는 /Todo/makeReply 라는 url을 인자로 받는 컨트롤러 메서드를 호출해야 한다.
     addReply = (replyToInsert) => {
+
+        console.log("addReply in Todo.js entered");
+
+        /* 
         const thisReplyItem = this.state.replies;
 
-        replyToInsert = { id: "", title:"" };
-
-        replyToInsert.id = "ID-" + thisReplyItem.length;
+        replyToInsert = { parentTodoId:this.state.item.id, title:"" };
 
         //replyToInsert.title =  "click to edit :)";
 
         thisReplyItem.push(replyToInsert);
         this.setState( { replies:thisReplyItem } );
-        console.log("replies : ", this.state.replies);
+        console.log("replies : ", this.state.replies); */
+        this.addReplyCall(this.state.item);
+        console.log("\tafter addReply in Todo.js 1 : ", this.state.item.replies);
+        console.log("\tafter addReply in Todo.js 2 : ", this.state.replies)
     };//func
 
 
@@ -115,6 +131,8 @@ class Todo extends React.Component{
         
         this.setState({ item: thisItem });
         //console.log("final : ", this.state.item);
+
+        this.updateTodo(this.state.item);
     };//func
 
 
@@ -135,7 +153,7 @@ class Todo extends React.Component{
         /* 53,999,999 밀리초는 { 23시 59분 59초 999밀리초 - 09시간 00분 00초 00밀리초} 라는 값을 밀리초로 환산한 값다. */
         var diffDate = (date1.getTime()+(53_999_999)) - date2.getTime();
 
-        console.log("mil/s difference : ", diffDate);
+        //console.log("mil/s difference : ", diffDate);
 
         //디데이를 '오늘'로 설정한 경우다. 남은 시간이 밀리초 기준으로 당연히 (1000밀리초 * 60초 * 60분 * 24시간 == 86_400_000밀리초보다 적을 수밖에 없다.)
         if(diffDate < 86_400_000 && diffDate >=0) {
@@ -152,7 +170,7 @@ class Todo extends React.Component{
 
         //diffDate는 설정해 놓은 디데이 날짜와 지금 시각 사이의 차이를 밀리초로 표현한 값이다. 여기서 1일을 뜻하는 (86_400_000)밀리초를 몇 번 뺐는지를 구하면 몇 일이 지나야 디데이에 도달하는 지를 구할 수 있다.
         while(true){
-            console.log("resetDate while called");
+            //console.log("resetDate while called");
             diffDate -= (86_400_000);
             timer += 1;
             if(diffDate < 86_400_000){break;}
@@ -165,15 +183,18 @@ class Todo extends React.Component{
 
 
     render(){
+
+        console.log("\tTodo.js render called");
+
         const item = this.state.item;
 
         var todoReplies = this.state.replies.length > 0 && (
             <Paper style={ { paddingLeft:10 } }>
                 <List>
                     {
-                        this.state.replies.map(
+                        this.state.item.replies.map(
                             (replyItem,idx) => (<Reply replyItem={replyItem} key={replyItem.id} 
-                            deleteReply = {this.deleteReply}
+                            deleteReply = {this.deleteReply} updateReplyCallLast = {this.updateReplyCall}
                             />)
                         )//map
                     }

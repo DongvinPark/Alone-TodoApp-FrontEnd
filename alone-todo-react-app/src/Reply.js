@@ -7,6 +7,7 @@ import {
     ListItemSecondaryAction
 } from "@mui/material";
 
+
 class Reply extends React.Component {
 
     constructor(props){
@@ -17,7 +18,8 @@ class Reply extends React.Component {
         };//this.state
 
         this.deleteReply = props.deleteReply;//이놈은 어떤 상위객체로부터 전달을 받아야 하는가?
-    }//생성자
+        this.updateReplyCallLast = props.updateReplyCallLast;
+    }//constructor
 
     //>>> Method Area <<<
 
@@ -41,6 +43,8 @@ class Reply extends React.Component {
     enterKeyEventHandler = (e) => {
         if(e.key === 'Enter'){
             this.setState( { readOnly: true } );
+            console.log(this.state.replyItem);
+            this.updateReplyCallLast(this.state.replyItem);
         }
     };
 
@@ -54,6 +58,9 @@ class Reply extends React.Component {
 
 
     render(){
+
+        console.log("\tReply.js render called");
+
         const replyItem = this.state.replyItem;
 
         return(
