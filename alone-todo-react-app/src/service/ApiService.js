@@ -23,7 +23,12 @@ export function call(api, method, request){
 
     return fetch(options.url, options).then(
         (response) => response.json().then(
-            (json) => { if(!response.ok){ return Promise.reject(json); }//여기 세미콜론 빠졌다!! 그리고 if 다음엔 request가 아니고 response다!!
+            (json) => { if(!response.ok){ 
+                console.log("프로미스 거부 파트 진입");
+                alert(json.error);
+                window.location.reload();
+                return Promise.reject(json);
+             }//여기 세미콜론 빠졌다!! 그리고 if 다음엔 request가 아니고 response다!!
                 return json;
             }//(json) =>
         )//inner then
