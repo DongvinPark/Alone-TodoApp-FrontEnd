@@ -19,14 +19,16 @@ class Reply extends React.Component {
 
         this.deleteReply = props.deleteReply;//이놈은 어떤 상위객체로부터 전달을 받아야 하는가?
         this.updateReplyCallLast = props.updateReplyCallLast;
+        this.deleteReplyCallLast = props.deleteReplyCallLast;
     }//constructor
 
     //>>> Method Area <<<
 
 
     deleteEventHandler = () => {
-        console.log("delete reply event called");
-        this.deleteReply(this.state.replyItem);
+        /* console.log("delete reply event called");
+        this.deleteReply(this.state.replyItem); */
+        this.deleteReplyCallLast(this.state.replyItem);
     };
 
 
@@ -59,7 +61,7 @@ class Reply extends React.Component {
 
     render(){
 
-        console.log("\tReply.js render called");
+        //console.log("\t\tReply.js render called");
 
         const replyItem = this.state.replyItem;
 

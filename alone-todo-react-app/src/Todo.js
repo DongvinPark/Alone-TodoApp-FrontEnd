@@ -15,6 +15,8 @@ import { DeleteOutlined } from '@mui/icons-material';
 
 import Reply from './Reply';
 
+
+
 class Todo extends React.Component{
 
     constructor(props){
@@ -28,9 +30,12 @@ class Todo extends React.Component{
         this.updateTodo = props.updateTodo;
         this.addReplyCall = props.addReplyCall;
         this.updateReplyCall = props.updateReplyCall;
+        this.deleteReplyCall = props.deleteReplyCall;
+        this.get = props.get;
     }
 
     //>>> Method Area <<<
+
 
     deleteEventHandler = () => {
         console.log("delete Event Handler called");
@@ -78,23 +83,13 @@ class Todo extends React.Component{
     //렌더링 된 프런트 엔드에서 '댓글'이라고 써 있는 버튼을 눌렀을 때, 이 함수가 호출된다.
     //그러고 나서 무슨 일이 일어나는가? 우선 첫째로 프런트엔드 상에서의 Todo 아이템에 변화가 생긴다.
     //또한 Back End에 있는 /Todo/makeReply 라는 url을 인자로 받는 컨트롤러 메서드를 호출해야 한다.
-    addReply = (replyToInsert) => {
+    addReply = () => {
 
-        console.log("addReply in Todo.js entered");
-
-        /* 
-        const thisReplyItem = this.state.replies;
-
-        replyToInsert = { parentTodoId:this.state.item.id, title:"" };
-
-        //replyToInsert.title =  "click to edit :)";
-
-        thisReplyItem.push(replyToInsert);
-        this.setState( { replies:thisReplyItem } );
-        console.log("replies : ", this.state.replies); */
+        //console.log("*** Todo.js addReply entered");
+        
         this.addReplyCall(this.state.item);
-        console.log("\tafter addReply in Todo.js 1 : ", this.state.item.replies);
-        console.log("\tafter addReply in Todo.js 2 : ", this.state.replies)
+
+        //console.log("*** Todo.js result of this.state.replies : ", this.state.replies);
     };//func
 
 
@@ -115,6 +110,8 @@ class Todo extends React.Component{
             }
         );
     };//func
+
+
 
 
     resetDate = () => {
@@ -184,7 +181,7 @@ class Todo extends React.Component{
 
     render(){
 
-        console.log("\tTodo.js render called");
+        //console.log("\tTodo.js render called");
 
         const item = this.state.item;
 
@@ -192,10 +189,14 @@ class Todo extends React.Component{
             <Paper style={ { paddingLeft:10 } }>
                 <List>
                     {
-                        this.state.item.replies.map(
-                            (replyItem,idx) => (<Reply replyItem={replyItem} key={replyItem.id} 
-                            deleteReply = {this.deleteReply} updateReplyCallLast = {this.updateReplyCall}
-                            />)
+                        this.state.replies.map(
+                            (replyItem,idx) => (<Reply
+                                                    replyItem={replyItem}
+                                                    key={replyItem.id} 
+                                                    deleteReply = {this.deleteReply}
+                                                    updateReplyCallLast = {this.updateReplyCall}
+                                                    deleteReplyCallLast = {this.deleteReplyCall}
+                                                />)
                         )//map
                     }
                 </List>

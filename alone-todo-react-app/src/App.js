@@ -22,7 +22,7 @@ class App extends React.Component {
 
 
   componentDidMount(){
-    console.log("\tcomponentDidMount called");
+    //console.log("\tcomponentDidMount called");
     call("/Todo/getTodo", "GET", null).then(
       (response) => this.setState( {items: response.data} )
     );//then
@@ -40,6 +40,7 @@ class App extends React.Component {
 
 
   add = (item) => {
+    //console.log("add() in App.js called");
     call("/Todo/createTodo", "POST", item).then(
       (response) => this.setState({ items: response.data })
     );//then
@@ -72,10 +73,13 @@ class App extends React.Component {
 
 
   addReplyCall = (item) => {
+    console.log("App.js addReplyCall param item(from Todo.js) : ", item);
+    console.log("addReplyCall before setState : ", this.state.items );
     call("/Todo/makeReply", "POST", item).then(
-      (response) => this.setState( { items: response.data } )
+      (response) => this.setState( { items: response.data }, (console.log("BACK END response : ", response.data, "\nApp.js state : ", this.state.items)) )
     );//then
-    console.log("addReplyCall in App.js called : ", this.state.items);
+    console.log("addReplyCall after setState : ", this.state.items);
+    window.location.reload();
   };//func
 
 
@@ -88,10 +92,20 @@ class App extends React.Component {
   };//func
 
 
+  deleteReplyCall (replyItem) {
+    console.log("deleteReplyCAll in App.js called");
+    console.log("replyItem param : ", replyItem);
+    call( "/Todo/deleteReply", "DELETE", replyItem ).then(
+      (response) => this.setState( { items: response.data } )
+    );//then
+    window.location.reload();
+  };////func
+
+
 
   render(){
 
-    console.log("\tApp.js render() called");
+    //console.log("App.js render() called");
 
     var todoItems = this.state.items.length > 0 && (
       <Paper style={ {margin:16} }>
@@ -106,6 +120,7 @@ class App extends React.Component {
                               updateTodo={this.updateTodo}
                               addReplyCall={this.addReplyCall}
                               updateReplyCall={this.updateReplyCall}
+                              deleteReplyCall={this.deleteReplyCall}
                             />)
             )//map
           }

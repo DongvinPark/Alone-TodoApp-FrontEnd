@@ -32,9 +32,6 @@ class AddTodo extends React.Component{
         this.add(this.state.item);
         this.setState({item: {title: "", dueDate: ""} });
 
-       /*  var myDate = document.getElementById("D-Day-Date").value;
-        console.log("selected Date : ", myDate);
-        console.log(typeof(myDate)); */
     };//func
 
 
