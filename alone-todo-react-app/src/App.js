@@ -2,10 +2,10 @@
 import React from 'react';
 import Todo from './Todo';
 import AddTodo from './AddTodo';
-import { Paper, List, Container } from '@mui/material';
+import { Paper, List, Container, AppBar, Toolbar, Grid, Typography, Button } from '@mui/material';
 import './App.css';
 
-import { call } from './service/ApiService';
+import { call, signout } from './service/ApiService';
 
 class App extends React.Component {
 
@@ -14,7 +14,8 @@ class App extends React.Component {
     this.state = {
       items:[
         
-      ]
+      ],
+      loading : true
     };
   }
 
@@ -22,9 +23,9 @@ class App extends React.Component {
 
 
   componentDidMount(){
-    //console.log("\tcomponentDidMount called");
+    console.log("\t컴포넌트디드마운트 호출됨");
     call("/Todo/getTodo", "GET", null).then(
-      (response) => this.setState( {items: response.data} )
+      (response) => this.setState( {items: response.data, loading : false} )
     );//then
   };//func
 
@@ -128,54 +129,68 @@ class App extends React.Component {
       </Paper>
     );//var
 
+
+
+    //navigation bar
+    var navigationBar = (
+      <AppBar position="static">
+        <Toolbar>
+          <Grid justify="space-between" container>
+            <Grid item>
+              <Typography variant="h6">오늘의 할 일 :D</Typography>
+            </Grid>
+            <Grid>
+              <Button color="inherit" onClick={signout}>
+                로그 아웃
+              </Button>
+             </Grid>
+           </Grid>
+       </Toolbar>
+      </AppBar>
+    );//N.V. Bar
+
+
+
+    //로딩 중이 아닐 때 렌더링할 부분
+    var notInLoading = (
+      <div>
+        {navigationBar}
+        <Container maxWidth="md">
+          <AddTodo add={this.add}/>
+          <div className='TodoList'> { todoItems } </div>
+        </Container>
+      </div>
+    );//notInLoading
+
+
+    //로딩 중일 때 렌더링 할 부분
+    var InLoading = (
+      <div>
+        <h1> 로딩 중... </h1>
+        <br/>
+        <Button color = "success" variant="text" size="large" onClick={signout}>
+          로그인 페이지로 이동하기
+        </Button>
+      </div>
+      );
+
+    
+    //최종 리턴할 부분
+    var content = InLoading;
+
+
+    if(this.state.loading === false){
+      content = notInLoading;
+    }
+
+
+
     return(
       <div className='App'>
-        <Container>
-          <AddTodo add={this.add} />
-          <div className="TodoList">{todoItems}</div>
-        </Container>
+        {content}
       </div>
     );//return
   }//render
 }//end of class
 
 export default App;
-
-/*
-App.js에 처음 존재하던 내용들.
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-*/
-/*
-머티리얼 UI 적용하기 전에 입력돼 있던 내용들
-
-    var todoItems = this.state.items.map(
-      (item, idx) => ( < Todo item={item} key={ item.id } /> )
-    );//map
-
-    return(
-
-      <div className='App'>
-        {todoItems}
-      </div>
-
-    );//return
-*/
