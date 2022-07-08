@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../app-config";
-const ACCESS_TOKEN = "ACCESS_TOKEN";
+//const ACCESS_TOKEN = "ACCESS_TOKEN";
 
 
 export function call(api, method, request){
@@ -35,40 +35,11 @@ export function call(api, method, request){
     )
     .catch(
         (error) => {
+            console.log(error.status);
+            if(error.status === 403){
+                window.location.href = "/login";
+            }//if
             return Promise.reject(error);
         }//error
     );//catch
 }//function call()
-
-
-
-
-export function signin(userDTO){
-    return call("/auth/signin", "POST", userDTO)
-    .then(
-        (response) => {
-            if(response.token){ 
-                localStorage.setItem("ACCESS_TOKEN", response.token);
-                window.location.href = "/";
-             }
-        }
-    );//then()
-}//signin()
-
-
-
-
-
-
-export function signout(){
-    localStorage.setItem(ACCESS_TOKEN, null);
-    window.location.href = "/login";
-}//signout()
-
-
-
-
-
-export function signup(userDTO){
-    return call("/auth/signup", "POST", userDTO);
-}
